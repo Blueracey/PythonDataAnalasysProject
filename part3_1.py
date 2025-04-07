@@ -49,6 +49,8 @@ Oldest_entry = data[data['release_year'] == data['release_year'].min()]
 #youngest movies plural in the database
 youngests_entry = data[data['release_year'] == data['release_year'].max()]
 
+
+
 #best year (2018)
 best_year = data['release_year'].value_counts().idxmax()
 

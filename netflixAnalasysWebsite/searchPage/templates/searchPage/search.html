@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Netflix Search</title>
+
+    <style>
+        .dropdown {
+          position: relative;
+          display: inline-block;
+        }
+        
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #fff;
+          min-width: 200px;
+          max-height: 200px;
+          overflow-y: auto;
+          box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+          z-index: 1;
+          padding: 10px;
+          border: 1px solid #ccc;
+        }
+        
+        .dropdown:hover .dropdown-content {
+          display: block;
+        }
+        
+        .dropdown label {
+          display: block;
+          margin-bottom: 5px;
+        }
+        </style>
+        
+</head>
+<body>
+    <h1>Search Netflix</h1>
+    
+    <form method="get">
+        <input type="text" name="q" placeholder="Search by title, director, or cast" value="{{ request.GET.q }}">
+        
+        <div class="dropdown">
+            <button type="button">Filter by Genre </button>
+            <div class="dropdown-content">
+              {% for Genre in genres %}
+                <label>
+                  <input type="checkbox" name="Genre" value="{{ Genre }}"
+                  {% if Genre in selected_genre %}checked{% endif %}>
+                  {{ Genre }}
+                </label>
+              {% endfor %}
+            </div>
+          </div>
+
+        <div class="dropdown">
+            <button type="button">Filter by Country </button>
+            <div class="dropdown-content">
+              {% for country in countries %}
+                <label>
+                  <input type="checkbox" name="country" value="{{ country }}"
+                  {% if country in selected_countries %}checked{% endif %}>
+                  {{ country }}
+                </label>
+              {% endfor %}
+            </div>
+          </div>
+
+        <select name="year">
+            <option value="">-- Year --</option>
+            {% for y in years %}
+                <option value="{{ y.year }}" {% if y.year|stringformat:"s" == request.GET.year %}selected{% endif %}>{{ y.year }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Results:</h2>
+    <ul>  
+        {% for item in results %}
+            <li>
+                <strong>{{ item.title }}</strong> ({{ item.release_year.year }})<br>
+                Director: {{ item.director }}<br>
+                Cast: {{ item.cast }}<br>
+                Genre: {{ item.listed_in }}<br>
+                Country: {{ item.country }}<br>
+                Rating: {{ item.rating }}<br>
+                <em>{{ item.description }}</em>
+            </li>
+        {% empty %}
+            <li>No results found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

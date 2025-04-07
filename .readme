@@ -1,0 +1,17 @@
+to load the csv in the website to the following 
+
+move the csv file into the neflixAnalasysWebsite Folder
+
+open the neflixAnalasysWebsite folder in terminal 
+
+python manage.py makemigrations
+python manage.py migrate
+
+then 
+
+python manage.py shell 
+
+exec(open('import_csv.py').read())
+
+
+this should load the data into Django

@@ -13,15 +13,13 @@ from searchPage.models import netflixData
 df = pd.read_csv('netflix_titles.csv')  
 
 
-# Fill NaNs with empty string or suitable default
+# Fill NaNs with empty string 
 df = df.fillna('')
 
 # Convert release_year (assumes it's just a year like 2018)
 df['release_year'] = df['release_year'].apply(lambda x: datetime.strptime(str(int(x)), "%Y"))
 
-# Convert rating and duration safely to integers
-df['rating'] = pd.to_numeric(df['rating'], errors='coerce').fillna(0).astype(int)
-df['duration'] = pd.to_numeric(df['duration'], errors='coerce').fillna(0).astype(int)
+
 
 
 records = [
